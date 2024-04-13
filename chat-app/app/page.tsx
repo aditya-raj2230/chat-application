@@ -1,13 +1,9 @@
 import { db } from "@/lib/db";
+import Button from "./components/ui/Button";
+import { Ghost } from "lucide-react";
 
 export default  async function Home() {
 
-  await db.set('hello','hello')
-  return (
-  
-    <div className='text-red-500'>
-      hello world
-    </div>
-  
-  );
+  return <Button variants='ghost'>hello</Button>
+    
 }
