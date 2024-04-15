@@ -16,17 +16,17 @@ export async function POST (req:Request){
         }
         // varify both users are already frnds 
 
-        const isAlreadyFriends = await fetchRedis('sismember',`user:${session.user.id}:friends`,idToadd)
+        // const isAlreadyFriends = await fetchRedis('sismember',`user:${session.user.id}:friends`,idToadd)
 
-        if(isAlreadyFriends){
-            return new Response('already frnds',{status:402})
-        }
+        // if(isAlreadyFriends){
+        //     return new Response('already frnds',{status:402})
+        // }
 
-        const hasFriendRequest = await fetchRedis('sismember',`user:${session.user.id}incoming_friend_request`,idToadd)
+        // const hasFriendRequest = await fetchRedis('sismember',`user:${session.user.id}incoming_friend_request`,idToadd)
 
-        if (!hasFriendRequest){
-            return new Response('no friend request', {status:400})
-        }
+        // if (!hasFriendRequest){
+        //     return new Response('no friend request', {status:400})
+        // }
 
         await db.sadd(`user:${session.user.id}:friends`,idToadd)
         await db.sadd(`user:${idToadd}:friends`,session.user.id)
