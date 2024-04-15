@@ -8,6 +8,7 @@ import Image from 'next/image'
 import SignOutButton from '@/app/components/SignOutButton'
 import FriendRequestSidebarOption from '@/app/components/FriendRequestSidebarOption'
 import { fetchRedis } from '@/app/helpers/redis'
+import { getFriendsByUserId } from '@/app/helpers/get-friends-by-user-id'
 
 
 interface LayoutProps {
@@ -32,6 +33,9 @@ const Layout = async ({children}:LayoutProps) => {
     const session = await getServerSession(authOptions)
     if(!session) notFound()
 
+    const friends = await getFriendsByUserId(session.user.id)
+    
+
 const unseenRequestsCount= (await fetchRedis('smembers',`user:${session.user.id}:incoming_friend_request`)as User[]).length
 
   return <div className='w-full flex h-screen '>
@@ -41,12 +45,14 @@ const unseenRequestsCount= (await fetchRedis('smembers',`user:${session.user.id}
         
     </Link>
 
-    <div className='text-xs font-semibold leading-6 text-gray-400'>
+    {friends.length>0?(<div className='text-xs font-semibold leading-6 text-gray-400'>
         your chats
-    </div>
+    </div>):null}
     <nav className='flex flex-1 flex-col '>
         <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-            <li>//chats that this user has</li>
+            <li>
+                <SidebarChatLists/>
+            </li>
             <li>
                 <div className='text-xs font-semibold leading-6 text-gray-400'>Overview</div>
                 <ul role='list' className='-mx-2 mt-2 space-y-1 '>
@@ -63,10 +69,10 @@ const unseenRequestsCount= (await fetchRedis('smembers',`user:${session.user.id}
                             </li>
                         )
                     })}
-                </ul>
-            </li>
             <li>
                 <FriendRequestSidebarOption sessionId={session.user.id} initialUnseenRequestscount={unseenRequestsCount} />
+            </li>
+                </ul>
             </li>
 
             <li className='-mx-6 mt-auto flex items-center '>
