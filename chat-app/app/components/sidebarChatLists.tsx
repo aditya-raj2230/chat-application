@@ -1,12 +1,14 @@
 'use client'
+import { chatHrefConstructor } from '@/lib/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import {FC, useEffect, useState} from 'react'
 
 interface SidebarChatListsProps {
     friends:User[]
+    sessionId:string
 }
 
-const SidebarChatLists:FC<SidebarChatListsProps> = ({friends}) => {
+const SidebarChatLists:FC<SidebarChatListsProps> = ({friends,sessionId}) => {
 
     const router = useRouter()
     const pathname= usePathname()
@@ -30,7 +32,11 @@ const SidebarChatLists:FC<SidebarChatListsProps> = ({friends}) => {
 
 
     return <li key={friend.id}>
-        <a href={`/dashboard/chat/${}`}></a>
+        <a className='text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex items-center gapx3 rounded-md p-2 text-sm leading-6 ' href={`/dashboard/chat/${chatHrefConstructor(
+            sessionId,
+            friend.id
+        )}`}>{friend.name}
+        {unseenMessagesCount>0 ?(<div className='rounded-full w-5 h-5 text-xs flex justify-center items-center text-white bg-indigo-600'>{unseenMessagesCount}</div>):null}</a>
     </li>
  })}
   </ul>

@@ -9,6 +9,7 @@ import SignOutButton from '@/app/components/SignOutButton'
 import FriendRequestSidebarOption from '@/app/components/FriendRequestSidebarOption'
 import { fetchRedis } from '@/app/helpers/redis'
 import { getFriendsByUserId } from '@/app/helpers/get-friends-by-user-id'
+import SidebarChatLists from '@/app/components/sidebarChatLists'
 
 
 interface LayoutProps {
@@ -51,7 +52,7 @@ const unseenRequestsCount= (await fetchRedis('smembers',`user:${session.user.id}
     <nav className='flex flex-1 flex-col '>
         <ul role='list' className='flex flex-1 flex-col gap-y-7'>
             <li>
-                <SidebarChatLists/>
+                <SidebarChatLists sessionId={session.user.id} friends={friends}/>
             </li>
             <li>
                 <div className='text-xs font-semibold leading-6 text-gray-400'>Overview</div>
