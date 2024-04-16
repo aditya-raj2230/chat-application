@@ -5,6 +5,8 @@ import { timeStamp } from "console"
 import { getServerSession } from "next-auth"
 import {nanoid} from'nanoid'
 import { Message, messageValidator } from "@/lib/validations/message"
+import { pusherClient, pusherServer } from "@/lib/pusher"
+import { toPushserKey } from "@/lib/utils"
 
 export async function POST(req:Request) {
     try {
@@ -40,6 +42,10 @@ export async function POST(req:Request) {
                 }
 
             const message= messageValidator.parse(messageData)
+
+            // notify all connectd chat room
+
+            pusherServer.trigger(toPushserKey(`chat:${chatId}`),'incoming-message',message)
 
             // all valid send message
             await db.zadd(`chat:${chatId}:messages`,{
