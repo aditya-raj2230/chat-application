@@ -27,14 +27,14 @@ const Messages: FC<MessagesProps> = ({initialMessages,sessionId,sessionImg,chatP
         ))
         const messageHandler=(message:Message)=>{
           setMessages((prev)=>[message,...prev])
+          console.log('one')
         }
     
         pusherClient.bind('incoming-message',messageHandler)
     
         return()=>{
-          pusherClient.unsubscribe(toPushserKey(
-            `chat:${chatId}`
-          ))
+          pusherClient.unsubscribe(toPushserKey(`chat:${chatId}`))
+          
           
           pusherClient.unbind('incoming_message',messageHandler)
         }
