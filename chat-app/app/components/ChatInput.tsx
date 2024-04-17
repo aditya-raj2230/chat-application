@@ -60,7 +60,7 @@ const ChatInput :FC<ChatInputProps>= ({chatPartner,chatId}) => {
             <Button
              onClick={sendMessage} 
              isLoading={isLoading} 
-             type='submit' ></Button>
+             type='submit' className='text-sm text-white font-semibold'>send</Button>
         </div>
     </div>
   </div>

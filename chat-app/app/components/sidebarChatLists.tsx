@@ -7,6 +7,7 @@ import {FC, useEffect, useState} from 'react'
 import toast from 'react-hot-toast'
 import { any } from 'zod'
 import UnseenChatToast from './UnseenChatToast'
+import path from 'path'
 
 interface SidebarChatListsProps {
     friends:User[]
@@ -55,8 +56,10 @@ const SidebarChatLists:FC<SidebarChatListsProps> = ({friends,sessionId}) => {
             pusherClient.unsubscribe(toPushserKey(`user:${sessionId}:chats`))
 
         pusherClient.unsubscribe(toPushserKey(`user:${sessionId}:friends`))
+        pusherClient.unbind('new_message',chatHandler)
+        pusherClient.unbind('new_friend',newFriendHandler)
         }
-    },[pathname,sessionId])
+    },[pathname,sessionId,router])
 
     const [ unseenMessages,setUnseenMessages]= useState<Message[]>([])
 
@@ -67,7 +70,7 @@ const SidebarChatLists:FC<SidebarChatListsProps> = ({friends,sessionId}) => {
             })
             
         }
-    },[]) 
+    },[pathname]) 
 
   return <ul role='list' className='max-h-[25rem] overflow-y-auto -mx-2 space-y-1 '>
 {friends.sort().map((friend)=>{

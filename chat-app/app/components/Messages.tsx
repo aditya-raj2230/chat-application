@@ -39,7 +39,7 @@ const Messages: FC<MessagesProps> = ({initialMessages,sessionId,sessionImg,chatP
           pusherClient.unbind('incoming_message',messageHandler)
         }
     
-      },[])
+      },[chatId])
 
     const formatTimestamp = (timestamp:number)=>{
         return format(timestamp,'HH:mm')

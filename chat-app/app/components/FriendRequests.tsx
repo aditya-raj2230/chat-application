@@ -34,7 +34,7 @@ const FriendRequests :FC<FriendRequestsProps>= ({incomingFriendRequests,sessionI
       pusherClient.unbind('incoming_friend_request',friendRequestHandler)
     }
 
-  },[])
+  },[sessionId])
 
   
 const acceptFriend=async (senderId:string)=>{

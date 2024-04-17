@@ -10,6 +10,7 @@ import FriendRequestSidebarOption from '@/app/components/FriendRequestSidebarOpt
 import { fetchRedis } from '@/app/helpers/redis'
 import { getFriendsByUserId } from '@/app/helpers/get-friends-by-user-id'
 import SidebarChatLists from '@/app/components/sidebarChatLists'
+import MobileChatLayout from '@/app/components/MobileChatLayout'
 
 
 interface LayoutProps {
@@ -40,7 +41,10 @@ const Layout = async ({children}:LayoutProps) => {
 const unseenRequestsCount= (await fetchRedis('smembers',`user:${session.user.id}:incoming_friend_request`)as User[]).length
 
   return <div className='w-full flex h-screen '>
-    <div className='flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 p  bg-white px-6'>
+    <div className='md:hidden'>
+        <MobileChatLayout session={session} friends={friends} sidebarOptions={sideBarOption} unseenRequestCount={unseenRequestsCount}/>
+    </div>
+    <div className='hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 p  bg-white px-6'>
     <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
         <Icons.Logo className='h-8 w-auto text-indigo-200'></Icons.Logo>
         
