@@ -20,9 +20,7 @@
 //                 return NextResponse.next()
 //             }
 
-//             if(!isAuth && isAccessingSensitiveRoute){
-//                 return NextResponse.redirect(new URL('/login',req.url))
-//             }
+//            
 //             if(pathname==='/'){
 //                 return NextResponse.redirect(new URL('/dashboard',req.url))
 //             }
@@ -63,10 +61,9 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    if (!isAuth && isAccessingSensitiveRoute) {
-      return NextResponse.redirect(new URL('/login', req.url))
-    }
-
+     if(!isAuth && isAccessingSensitiveRoute){
+                return NextResponse.redirect(new URL('/login',req.url))
+            }
     if (pathname === '/') {
       return NextResponse.redirect(new URL('/dashboard', req.url))
     }
@@ -83,3 +80,4 @@ export default withAuth(
 export const config = {
   matchter: ['/', '/login', '/dashboard/:path*'],
 }
+
