@@ -1,7 +1,7 @@
 'use client'
 
 import { pusherClient } from '@/lib/pusher'
-import { toPushserKey } from "@/lib/utils"
+import { toPushserKey } from '@/lib/utils'
 import axios from 'axios'
 import { Check, UserPlus, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
